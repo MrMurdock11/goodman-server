@@ -11,6 +11,10 @@ module.exports = {
 		filename: "index.js",
 	},
 	resolve: {
+		alias: {
+			"@domain": path.resolve(__dirname, "src/domain"),
+			"@helper": path.resolve(__dirname, "src/helper"),
+		},
 		extensions: [".ts", ".js"],
 	},
 	module: {

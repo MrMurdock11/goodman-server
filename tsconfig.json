@@ -10,6 +10,15 @@
 		"forceConsistentCasingInFileNames": true,
 		"removeComments": true,
 		"resolveJsonModule": true,
+		"baseUrl": "./src",
+		"paths": {
+			"@domain/*": [
+				"domain/*"
+			],
+			"@helper/*": [
+				"helper/*"
+			]
+		},
 	},
 	"include": [
 		"src/**/*"

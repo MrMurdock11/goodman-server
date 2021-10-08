@@ -1,16 +1,20 @@
-import express, { urlencoded, json, Router } from "express";
 import cors from "cors";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
-import path from "path";
 import DocxTemplater from "docxtemplater";
-import PizZip from "pizzip";
-import { FinancialManagerDto } from "./models/financial-manager.dto";
-import { DebtorDto } from "./models/debtor.dto";
-import moment from "moment";
-import { CourtOfLawDto } from "./models/court-of-law.dto";
+import express, { urlencoded, json, Router } from "express";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
+import { split } from "lodash";
 import { incline } from "lvovich";
 import { DeclentionStrT } from "lvovich/lib/inclineRules";
-import { split } from "lodash";
+import moment from "moment";
+import path from "path";
+import PizZip from "pizzip";
+
+import { CourtOfLaw } from "@domain/court-of-law";
+import { Debtor } from "@domain/debtor";
+import {
+	createFinancialManager,
+	FinancialManager,
+} from "@domain/financial-manager";
 
 const app = express();
 const router = Router();
@@ -59,17 +63,12 @@ router.post("/generate", (_, res) => {
 		doc.setData({
 			id: "А40-20515/2020",
 			date: "24.08.2020",
-			financialManager: {
-				fullName: "Астахов Сергей Михайлович",
-				fullNameGenitive: inclineFullName(
-					"Астахов Сергей Михайлович",
-					"genitive"
-				),
-				initials: "Астахов С.М.",
-				address: "г. Москва, ул. Пушкина 99",
-				phone: "8-966-323-12-01",
-				email: "Ryley_Mayert@example.org",
-			} as FinancialManagerDto,
+			financialManager: createFinancialManager(
+				"Астахов Сергей Михайлович",
+				"г. Москва, ул. Пушкина 99",
+				"8-966-323-12-01",
+				"Ryley_Mayert@example.org"
+			),
 			debtor: {
 				fullName: "Иванов Петр Петрович",
 				fullNameGenitive: inclineFullName("Иванов Петр Петрович", "genitive"),
@@ -82,12 +81,12 @@ router.post("/generate", (_, res) => {
 				birthday: "7 мая 1995",
 				placeOfBirth: "г. Москва, ул. Ленина 17 к. 1",
 				registrationAddress: "г. Москва, ул. Ленина 17 к. 1",
-			} as DebtorDto,
+			} as Debtor,
 			currentDate: moment().format("DD.MM.YYYY"),
 			courtOfLaw: {
 				title: "Арбитражного суда г. Москвы",
 				address: "г. Москва, ул. Тверская 12",
-			} as CourtOfLawDto,
+			} as CourtOfLaw,
 		});
 
 		doc.render();

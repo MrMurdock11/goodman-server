@@ -1,4 +1,4 @@
-export type CourtOfLawDto = {
+export type CourtOfLaw = {
 	title: string;
 	address: string;
 };
