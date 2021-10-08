@@ -9,8 +9,8 @@ import moment from "moment";
 import path from "path";
 import PizZip from "pizzip";
 
-import { CourtOfLaw, createCourtOfLaw } from "@domain/court-of-law";
-import { createDebtor, Debtor } from "@domain/debtor";
+import { createCourtOfLaw } from "@domain/court-of-law";
+import { createDebtor } from "@domain/debtor";
 import { createFinancialManager } from "@domain/financial-manager";
 
 const app = express();

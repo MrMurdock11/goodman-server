@@ -1,10 +1,11 @@
 import "core-js/stable";
 import "regenerator-runtime/runtime";
-import boxen from "boxen";
 import "dotenv-flow/config";
+
+import boxen from "boxen";
 import chalk from "chalk";
-import server from "./server";
 import internalIp from "internal-ip";
+import server from "server";
 
 const HOSTNAME = "0.0.0.0";
 const port: number = Number.parseInt(process.env.PORT ?? "1000", 10);

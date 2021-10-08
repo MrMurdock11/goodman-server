@@ -3,15 +3,10 @@ import { inclineFullName } from "@helper/incline-full-name.helper";
 
 export type FinancialManager = {
 	fullName: string;
-
 	fullNameGenitive: string;
-
 	initials: string;
-
 	address: string;
-
 	phone: string;
-
 	email: Email;
 };
 
