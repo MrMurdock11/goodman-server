@@ -9,12 +9,9 @@ import moment from "moment";
 import path from "path";
 import PizZip from "pizzip";
 
-import { CourtOfLaw } from "@domain/court-of-law";
-import { Debtor } from "@domain/debtor";
-import {
-	createFinancialManager,
-	FinancialManager,
-} from "@domain/financial-manager";
+import { CourtOfLaw, createCourtOfLaw } from "@domain/court-of-law";
+import { createDebtor, Debtor } from "@domain/debtor";
+import { createFinancialManager } from "@domain/financial-manager";
 
 const app = express();
 const router = Router();
@@ -34,10 +31,6 @@ const inclineFullName = (
 
 	return `${inclineFullName.last} ${inclineFullName.first} ${inclineFullName.middle}`;
 };
-
-router.get("/test", (_, res) => {
-	res.send("Hello world!");
-});
 
 router.post("/generate", (_, res) => {
 	const templatePathForRequestPayment = path.join(
@@ -69,24 +62,19 @@ router.post("/generate", (_, res) => {
 				"8-966-323-12-01",
 				"Ryley_Mayert@example.org"
 			),
-			debtor: {
-				fullName: "Иванов Петр Петрович",
-				fullNameGenitive: inclineFullName("Иванов Петр Петрович", "genitive"),
-				fullNameInstrumental: inclineFullName(
-					"Иванов Петр Петрович",
-					"instrumental"
-				),
-				personalInsurancePolicyNumber: "112-233-125 99", // СНИЛС
-				individualTaxpayerNumber: "240852222455", // ИНН
-				birthday: "7 мая 1995",
-				placeOfBirth: "г. Москва, ул. Ленина 17 к. 1",
-				registrationAddress: "г. Москва, ул. Ленина 17 к. 1",
-			} as Debtor,
+			debtor: createDebtor(
+				"Иванов Петр Петрович",
+				"112-233-125 99",
+				"240852222455",
+				"7 мая 1995",
+				"г. Москва, ул. Ленина 17 к. 1",
+				"г. Москва, ул. Ленина 17 к. 1"
+			),
 			currentDate: moment().format("DD.MM.YYYY"),
-			courtOfLaw: {
-				title: "Арбитражного суда г. Москвы",
-				address: "г. Москва, ул. Тверская 12",
-			} as CourtOfLaw,
+			courtOfLaw: createCourtOfLaw(
+				"Арбитражного суда г. Москвы",
+				"г. Москва, ул. Тверская 12"
+			),
 		});
 
 		doc.render();

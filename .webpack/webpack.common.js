@@ -12,8 +12,8 @@ module.exports = {
 	},
 	resolve: {
 		alias: {
-			"@domain": path.resolve(__dirname, "src/domain"),
-			"@helper": path.resolve(__dirname, "src/helper"),
+			"@domain": path.resolve(__dirname, "../src/domain"),
+			"@helper": path.resolve(__dirname, "../src/helper"),
 		},
 		extensions: [".ts", ".js"],
 	},

@@ -12,15 +12,25 @@ export type FinancialManager = {
 
 	phone: string;
 
-	email: string;
+	email: Email;
 };
 
-export const createFinancialManager = (
+/**
+ *
+ *
+ * @export
+ * @param {string} fullName
+ * @param {string} address
+ * @param {string} phone
+ * @param {Email} email
+ * @return {FinancialManager}
+ */
+export function createFinancialManager(
 	fullName: string,
 	address: string,
 	phone: string,
 	email: string
-): FinancialManager => {
+): FinancialManager {
 	const fullNameGenitive = inclineFullName(fullName, "genitive");
 	const initials = getInitialsFullName(fullName);
 
@@ -32,4 +42,4 @@ export const createFinancialManager = (
 		phone,
 		email,
 	};
-};
+}
