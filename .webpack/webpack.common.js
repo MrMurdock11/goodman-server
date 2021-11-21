@@ -12,7 +12,10 @@ module.exports = {
 	},
 	resolve: {
 		alias: {
-			"@domain": path.resolve(__dirname, "../src/domain"),
+			__database__: path.resolve(__dirname, "../src/database"),
+			__mapper__: path.resolve(__dirname, "../src/mapper/index"),
+			"@models": path.resolve(__dirname, "../src/models"),
+			"@routes": path.resolve(__dirname, "../src/routes"),
 			"@helper": path.resolve(__dirname, "../src/helper"),
 		},
 		extensions: [".ts", ".js"],
@@ -21,4 +24,5 @@ module.exports = {
 		rules,
 	},
 	plugins,
+	experiments: { topLevelAwait: true },
 };

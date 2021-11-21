@@ -1,7 +1,6 @@
 {
-	"name": "docx-template",
+	"name": "goodman-server",
 	"version": "0.1.0",
-	"description": "docx-template server",
 	"main": "src/index.ts",
 	"bin": "dist/index.js",
 	"scripts": {
@@ -12,10 +11,13 @@
 		"node": ">=13.0.0"
 	},
 	"dependencies": {
+		"@automapper/classes": "7.0.2",
+		"@automapper/core": "7.0.2",
 		"axios": "^0.21.1",
 		"boxen": "4.2.0",
 		"chalk": "4.1.1",
 		"cheerio": "1.0.0-rc.10",
+		"class-transformer": "0.5.0",
 		"core-js": "3.15.2",
 		"cors": "2.8.5",
 		"docxtemplater": "3.23.1",
@@ -23,14 +25,18 @@
 		"express": "~4.17.1",
 		"internal-ip": "6.2.0",
 		"lodash": "4.17.21",
+		"lowdb": "^3.0.0",
 		"lvovich": "1.0.16",
 		"moment": "2.29.1",
 		"pizzip": "3.1.1",
-		"regenerator-runtime": "0.13.9"
+		"reflect-metadata": "0.1.13",
+		"regenerator-runtime": "0.13.9",
+		"uuid": "8.3.2"
 	},
 	"license": "MIT",
 	"devDependencies": {
 		"@babel/core": "7.14.8",
+		"@babel/plugin-proposal-decorators": "7.16.4",
 		"@babel/preset-env": "7.14.8",
 		"@babel/preset-typescript": "7.14.5",
 		"@trivago/prettier-plugin-sort-imports": "^2.0.4",
@@ -39,8 +45,10 @@
 		"@types/lodash": "4.14.171",
 		"@types/node": "16.4.0",
 		"@types/pizzip": "3.0.2",
+		"@types/uuid": "8.3.3",
 		"babel-loader": "8.2.2",
 		"clean-webpack-plugin": "4.0.0-alpha.0",
+		"copy-webpack-plugin": "9.1.0",
 		"cross-env": "7.0.3",
 		"nodemon-webpack-plugin": "4.5.2",
 		"ts-node": "10.1.0",

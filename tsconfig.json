@@ -1,19 +1,30 @@
 {
 	"compilerOptions": {
-		"target": "ES6",
-		"module": "CommonJS",
+		"target": "esnext",
+		"module": "esnext",
 		"moduleResolution": "node",
 		"sourceMap": true,
 		"outDir": "./dist",
 		"strict": true,
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
 		"removeComments": true,
 		"resolveJsonModule": true,
 		"baseUrl": "./src",
 		"paths": {
-			"@domain/*": [
-				"domain/*"
+			"__database__": [
+				"database"
+			],
+			"__mapper__": [
+				"mapper/index"
+			],
+			"@models/*": [
+				"models/*"
+			],
+			"@routes/*": [
+				"routes/*"
 			],
 			"@helper/*": [
 				"helper/*"

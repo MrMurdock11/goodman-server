@@ -1,8 +1,8 @@
-import { Debtor } from "../domain/debtor";
-import { FinancialManager } from "../domain/financial-manager";
+import { TDebtor } from "@models/debtor";
+import { FinancialManager } from "@models/manager";
 
 export type RequestPaymentDto = {
-	debtor: Debtor;
+	debtor: TDebtor;
 	financialManager: FinancialManager;
 	currentDate: string;
 };

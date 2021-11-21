@@ -6,7 +6,7 @@
 			"name": "Launch Service",
 			"request": "launch",
 			"args": [
-				"${workspaceFolder}/src/index.ts"
+				"${workspaceFolder}/dist/index.js"
 			],
 			"runtimeArgs": [
 				"--nolazy",
