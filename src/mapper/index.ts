@@ -16,5 +16,8 @@ export const mapper = createMapper({
 
 mapper.createMap(AddDebtorDto, Debtor);
 mapper.createMap(Debtor, DebtorEntity);
+mapper.createMap(DebtorEntity, Debtor);
+
 mapper.createMap(AddManagerDto, Manager);
 mapper.createMap(Manager, ManagerEntity);
+mapper.createMap(ManagerEntity, Manager);
