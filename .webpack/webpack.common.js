@@ -15,6 +15,7 @@ module.exports = {
 			__database__: path.resolve(__dirname, "../src/database"),
 			__mapper__: path.resolve(__dirname, "../src/mapper/index"),
 			"@models": path.resolve(__dirname, "../src/models"),
+			"@services": path.resolve(__dirname, "../src/services"),
 			"@routes": path.resolve(__dirname, "../src/routes"),
 			"@helper": path.resolve(__dirname, "../src/helper"),
 		},

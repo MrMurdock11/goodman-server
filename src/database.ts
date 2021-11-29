@@ -4,7 +4,7 @@ import { fileURLToPath } from "url";
 import { DebtorEntity } from "@routes/debtors/entities/debtor.entity";
 import { ManagerEntity } from "@routes/managers/entities/manager.entity";
 
-type Database = {
+export type Database = {
 	managers: ManagerEntity[]
 	debtors: DebtorEntity[]
 }

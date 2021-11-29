@@ -7,6 +7,8 @@ import { mapper } from "__mapper__";
 
 import { Debtor } from "@models/debtor";
 
+import { DebtorsService } from "@services/debtors.service";
+
 import { AddDebtorDto } from "./dtos/add-debtor.dto";
 import { DebtorEntity } from "./entities/debtor.entity";
 
@@ -44,15 +46,11 @@ router.delete("/debtors/:id", (req, res) => {
 
 router.get("/debtors/:id", (req, res) => {
 	const { id } = req.params;
+	const debtorsService = new DebtorsService();
 
-	if (isNull(db.data)) {
-		res.status(500).send();
-		return void 0;
-	}
+	const debtor = debtorsService.getDebtor(id);
 
-	const foundDebtor = find(db.data.debtors, { id });
-
-	res.status(200).send(foundDebtor);
+	res.status(200).send(debtor);
 });
 
 export default router;
