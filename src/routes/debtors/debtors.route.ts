@@ -1,5 +1,6 @@
 import { plainToInstance } from "class-transformer";
 import { Router } from "express";
+import { filter, find, isNull, reject } from "lodash";
 
 import db from "__database__";
 import { mapper } from "__mapper__";
@@ -25,6 +26,33 @@ router.post("/debtors", async (req, res): Promise<void> => {
 	await db.write();
 
 	res.status(200).send();
+});
+
+router.delete("/debtors/:id", (req, res) => {
+	const { id } = req.params;
+
+	if (isNull(db.data)) {
+		res.status(500).send();
+		return void 0;
+	}
+
+	db.data.debtors = reject(db.data.debtors, { id });
+	db.write();
+
+	res.status(200).send();
+});
+
+router.get("/debtors/:id", (req, res) => {
+	const { id } = req.params;
+
+	if (isNull(db.data)) {
+		res.status(500).send();
+		return void 0;
+	}
+
+	const foundDebtor = find(db.data.debtors, { id });
+
+	res.status(200).send(foundDebtor);
 });
 
 export default router;

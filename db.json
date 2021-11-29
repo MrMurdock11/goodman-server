@@ -1,0 +1,23 @@
+{
+  "managers": [],
+  "debtors": [
+    {
+      "id": "d3e5b5b9-5f89-4512-930c-1d624db867c0",
+      "fullName": "Thomas Wayne",
+      "personalInsurancePolicyNumber": "123-456-789-01 ",
+      "individualTaxpayerNumber": "3664069397",
+      "birthday": "24.11.1984",
+      "placeOfBirth": "Moscow",
+      "registrationAddress": "Elm st. 12, 1947"
+    },
+    {
+      "id": "eec61dc9-4c5e-49b1-9716-1f652ee0843e",
+      "fullName": "Thomas Wayne",
+      "personalInsurancePolicyNumber": "123-456-789-01 ",
+      "individualTaxpayerNumber": "3664069397",
+      "birthday": "24.11.1984",
+      "placeOfBirth": "Moscow",
+      "registrationAddress": "Elm st. 12, 1947"
+    }
+  ]
+}

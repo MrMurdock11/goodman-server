@@ -1,24 +1,14 @@
 import cors from "cors";
-import DocxTemplater from "docxtemplater";
-import express, { urlencoded, json, Router } from "express";
-import fs from "fs";
-import moment from "moment";
-import path from "path";
-import PizZip from "pizzip";
-
-import { createCourtOfLaw } from "@models/court-of-law";
+import express, { urlencoded, json } from "express";
 
 import { routes } from "./routes/index";
 
 const app = express();
-const router = Router();
 
 app.use(cors());
 app.use(urlencoded({ extended: false }));
 app.use(json());
 app.use("/api/v1", routes);
-
-const cwd = process.cwd();
 
 // router.post("/generate", (_, res) => {
 // 	const templatePathForRequestPayment = path.join(
