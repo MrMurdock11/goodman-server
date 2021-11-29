@@ -6,4 +6,5 @@
 /dist/
 /output/
 /public/
+/.data/
 db.json
