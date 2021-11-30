@@ -2,7 +2,7 @@ import { injectable } from "inversify";
 import { find } from "lodash";
 
 import db, { Database } from "__database__";
-import { mapper } from "__mapper__";
+import __mapper from "__mapper__";
 
 import { Manager } from "@models/manager";
 
@@ -15,7 +15,7 @@ export interface IManagersService {
 @injectable()
 export class ManagersService implements IManagersService {
 	private readonly _db: Database = db.data as Database;
-	private readonly _mapper = mapper;
+	private readonly _mapper = __mapper;
 
 	public getManager(id: string): Manager {
 		const entity = find(this._db.managers, { id });

@@ -3,7 +3,7 @@ import { Router } from "express";
 import { reject, find, isNull } from "lodash";
 
 import db from "__database__";
-import { mapper } from "__mapper__";
+import __mapper from "__mapper__";
 
 import { Manager } from "@models/manager";
 
@@ -18,8 +18,8 @@ router.get("/managers", (_, res): void => {
 
 router.post("/managers", async (req, res): Promise<void> => {
 	const dto: AddManagerDto = plainToInstance(AddManagerDto, req.body);
-	const debtor = mapper.map(dto, Manager, AddManagerDto);
-	const entity = mapper.map(debtor, ManagerEntity, Manager);
+	const debtor = __mapper.map(dto, Manager, AddManagerDto);
+	const entity = __mapper.map(debtor, ManagerEntity, Manager);
 
 	db.data?.managers.push(entity);
 
