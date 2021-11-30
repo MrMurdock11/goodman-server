@@ -1,3 +1,4 @@
+import { injectable } from "inversify";
 import { find } from "lodash";
 
 import db, { Database } from "__database__";
@@ -7,7 +8,12 @@ import { Manager } from "@models/manager";
 
 import { ManagerEntity } from "@routes/managers/entities/manager.entity";
 
-export class ManagersService {
+export interface IManagersService {
+	getManager(id: string): Manager;
+}
+
+@injectable()
+export class ManagersService implements IManagersService {
 	private readonly _db: Database = db.data as Database;
 	private readonly _mapper = mapper;
 

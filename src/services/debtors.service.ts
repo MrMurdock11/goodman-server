@@ -1,5 +1,5 @@
-import { Mapper } from "@automapper/core";
-import { find, isNull } from "lodash";
+import { injectable } from "inversify";
+import { find } from "lodash";
 
 import db, { Database } from "__database__";
 import { mapper } from "__mapper__";
@@ -8,7 +8,12 @@ import { Debtor } from "@models/debtor";
 
 import { DebtorEntity } from "@routes/debtors/entities/debtor.entity";
 
-export class DebtorsService {
+export interface IDebtorService {
+	getDebtor(id: string): Debtor;
+}
+
+@injectable()
+export class DebtorsService implements IDebtorService {
 	private readonly _db: Database = db.data as Database;
 	private readonly _mapper = mapper;
 

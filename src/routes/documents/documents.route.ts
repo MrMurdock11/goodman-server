@@ -2,9 +2,10 @@ import { Router } from "express";
 import fs from "fs";
 import path from "path";
 
-import { DebtorsService } from "@services/debtors.service";
-import { DocumentsService } from "@services/documents.service";
-import { ManagersService } from "@services/managers.service";
+import __container from "@ioc-container/config";
+import { services } from "@ioc-container/tokens";
+
+import { IDocumentsService } from "@services/documents.service";
 
 import { GenerateDto } from "./dtos/generate.dto";
 
@@ -27,17 +28,14 @@ router.get("/documents/:debtorId", (req, res) => {
 });
 
 router.post("/documents/generate", (req, res) => {
-	const { managerId, debtorId, courthouseId }: GenerateDto = req.body;
+	const { managerId, debtorId, courthouseId } = req.body as GenerateDto;
 
 	try {
-		const managersService = new ManagersService();
-		const debtorsService = new DebtorsService();
-		const documentsService = new DocumentsService();
+		const documentsService = __container.get<IDocumentsService>(
+			services.DOCUMENTS
+		);
 
-		const debtor = debtorsService.getDebtor(debtorId);
-		const manager = managersService.getManager(managerId);
-
-		documentsService.generateRequestPayment(manager, debtor);
+		documentsService.generateRequestPayment(managerId, debtorId);
 	} catch (error) {
 		console.log(error);
 	}

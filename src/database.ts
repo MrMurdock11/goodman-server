@@ -21,6 +21,6 @@ await db.read()
 
 // If file.json doesn't exist, db.data will be null
 // Set default data
-db.data ||= { managers: [], debtors: [] };
+db.data === null ? { managers: [], debtors: [] } : db.data;
 
 export default db;

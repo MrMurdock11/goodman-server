@@ -7,7 +7,6 @@
 		"outDir": "./dist",
 		"strict": true,
 		"esModuleInterop": true,
-		"forceConsistentCasingInFileNames": true,
 		"experimentalDecorators": true,
 		"emitDecoratorMetadata": true,
 		"removeComments": true,
@@ -19,6 +18,12 @@
 			],
 			"__mapper__": [
 				"mapper/index"
+			],
+			"@ioc-container/config": [
+				"ioc-container/inversify.config"
+			],
+			"@ioc-container/tokens": [
+				"ioc-container/tokens"
 			],
 			"@models/*": [
 				"models/*"
