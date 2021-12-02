@@ -2,10 +2,12 @@ import { inject, injectable } from "inversify";
 
 import { services } from "@ioc-container/tokens";
 
+import { ICompleteProcedureDocumentService } from "./complete-procedure-document.service";
 import { ICourthousesService } from "./courthouses.service";
 import { IDebtorService } from "./debtors.service";
+import { IFileSystemService } from "./file-system.service";
 import { IManagersService } from "./managers.service";
-import { IRequestPaymentDocumentService } from "./request-payment-document.service";
+import { IPaymentDocumentService } from "./payment-document.service";
 
 export interface IDocumentsService {
 	generate(managerId: Uuid, debtorId: Uuid, courthouseId: Uuid): void;
@@ -13,8 +15,14 @@ export interface IDocumentsService {
 
 @injectable()
 export class DocumentsService implements IDocumentsService {
-	@inject(services.REQUEST_PAYMENT_DOCUMENT)
-	private readonly _requestPaymentDocumentService!: IRequestPaymentDocumentService;
+	@inject(services.PAYMENT_DOCUMENT)
+	private readonly _paymentDocumentService!: IPaymentDocumentService;
+
+	@inject(services.COMPLETE_PROCEDURE_DOCUMENT)
+	private readonly _completeProcedureDocumentService!: ICompleteProcedureDocumentService;
+
+	@inject(services.FILE_SYSTEM_SERVICE)
+	private readonly _fileSystemService!: IFileSystemService;
 
 	@inject(services.MANAGERS)
 	private readonly _managersService!: IManagersService;
@@ -34,10 +42,21 @@ export class DocumentsService implements IDocumentsService {
 		const debtor = this._debtorsService.getDebtor(debtorId);
 		const courthouse = this._courthousesService.getCourthouse(courthouseId);
 
-		await this._requestPaymentDocumentService.generate(
+		const paymentDocument = await this._paymentDocumentService.generate(
 			manager,
 			debtor,
 			courthouse
 		);
+		const completeProcedureDocument =
+			await this._completeProcedureDocumentService.generate(
+				manager,
+				debtor,
+				courthouse
+			);
+
+		this._fileSystemService.saveExportableDocuments([
+			paymentDocument,
+			completeProcedureDocument,
+		]);
 	}
 }

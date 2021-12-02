@@ -1,12 +1,14 @@
 import DocxTemplateEngine from "docxtemplater";
 import fs from "fs";
 import { injectable } from "inversify";
+import { upperFirst } from "lodash";
 import moment from "moment";
 import path from "path";
 import PizZip from "pizzip";
 
 import { Courthouse } from "@models/courthouse";
 import { Debtor } from "@models/debtor";
+import { Document } from "@models/document";
 import { Manager } from "@models/manager";
 
 import { getInitialsFullName } from "@helper/get-initials-full-name.helper";
@@ -14,38 +16,33 @@ import { inclineFullName } from "@helper/incline-full-name.helper";
 
 import { GetInclinePhraseGenitiveClient } from "../clients/clients";
 
-export interface IRequestPaymentDocumentService {
-	generate(manager: Manager, debtor: Debtor, courthouse: Courthouse): void;
+export interface ICompleteProcedureDocumentService {
+	generate(
+		manager: Manager,
+		debtor: Debtor,
+		courthouse: Courthouse
+	): Promise<Document>;
 }
 
 @injectable()
-export class RequestPaymentDocumentService
-	implements IRequestPaymentDocumentService
+export class CompleteProcedureDocumentService
+	implements ICompleteProcedureDocumentService
 {
 	private readonly _templateFilePath = path.join(
 		process.cwd(),
-		"templates/request-payment.docx"
+		"templates/complete-procedure.docx"
 	);
-
 	private readonly _exportsPath = path.join(process.cwd(), ".data/exports");
-	private readonly _resultFileName =
+	private readonly _resultFilename =
 		"Ходатайство о завершении процедуры реализации имущества гражданина.docx";
 
 	public async generate(
 		manager: Manager,
 		debtor: Debtor,
 		courthouse: Courthouse
-	): Promise<void> {
+	): Promise<Document> {
 		const destinationPath = path.join(this._exportsPath, debtor.id);
 		const client = new GetInclinePhraseGenitiveClient();
-
-		const hasDestinationPathForDebtor = fs.existsSync(destinationPath);
-		if (hasDestinationPathForDebtor) {
-			const files = fs.readdirSync(destinationPath);
-			for (const file of files) {
-				fs.unlinkSync(path.join(destinationPath, file));
-			}
-		}
 
 		const zip = new PizZip(fs.readFileSync(this._templateFilePath, "binary"));
 		const docxTemplateEngine = new DocxTemplateEngine(zip);
@@ -70,18 +67,19 @@ export class RequestPaymentDocumentService
 			},
 			courthouse: {
 				...courthouse,
-				titleGenitive: courthouseTitleGenitiveInclineForm,
+				titleGenitive: upperFirst(courthouseTitleGenitiveInclineForm),
 			},
 		});
 
 		docxTemplateEngine.render();
 
 		const buffer = docxTemplateEngine.getZip().generate({ type: "nodebuffer" });
+		const document = new Document(
+			destinationPath,
+			this._resultFilename,
+			buffer
+		);
 
-		if (!fs.existsSync(destinationPath)) {
-			fs.mkdirSync(destinationPath);
-		}
-
-		fs.writeFileSync(path.join(destinationPath, this._resultFileName), buffer);
+		return document;
 	}
 }
