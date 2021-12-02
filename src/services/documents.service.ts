@@ -25,11 +25,19 @@ export class DocumentsService implements IDocumentsService {
 	@inject(services.COURTHOUSES)
 	private readonly _courthousesService!: ICourthousesService;
 
-	public generate(managerId: Uuid, debtorId: Uuid, courthouseId: Uuid): void {
+	public async generate(
+		managerId: Uuid,
+		debtorId: Uuid,
+		courthouseId: Uuid
+	): Promise<void> {
 		const manager = this._managersService.getManager(managerId);
 		const debtor = this._debtorsService.getDebtor(debtorId);
 		const courthouse = this._courthousesService.getCourthouse(courthouseId);
 
-		this._requestPaymentDocumentService.generate(manager, debtor, courthouse);
+		await this._requestPaymentDocumentService.generate(
+			manager,
+			debtor,
+			courthouse
+		);
 	}
 }

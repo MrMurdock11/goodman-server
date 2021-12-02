@@ -12,6 +12,8 @@ import { Manager } from "@models/manager";
 import { getInitialsFullName } from "@helper/get-initials-full-name.helper";
 import { inclineFullName } from "@helper/incline-full-name.helper";
 
+import { GetInclinePhraseGenitiveClient } from "../clients/clients";
+
 export interface IRequestPaymentDocumentService {
 	generate(manager: Manager, debtor: Debtor, courthouse: Courthouse): void;
 }
@@ -29,15 +31,17 @@ export class RequestPaymentDocumentService
 	private readonly _resultFileName =
 		"Ходатайство о завершении процедуры реализации имущества гражданина.docx";
 
-	public generate(
+	public async generate(
 		manager: Manager,
 		debtor: Debtor,
 		courthouse: Courthouse
-	): void {
+	): Promise<void> {
 		const destinationPath = path.join(this._exportsPath, debtor.id);
+		const client = new GetInclinePhraseGenitiveClient();
 
-		const files = fs.readdirSync(destinationPath);
-		if (files.length > 0) {
+		const hasDestinationPathForDebtor = fs.existsSync(destinationPath);
+		if (hasDestinationPathForDebtor) {
+			const files = fs.readdirSync(destinationPath);
 			for (const file of files) {
 				fs.unlinkSync(path.join(destinationPath, file));
 			}
@@ -45,6 +49,9 @@ export class RequestPaymentDocumentService
 
 		const zip = new PizZip(fs.readFileSync(this._templateFilePath, "binary"));
 		const docxTemplateEngine = new DocxTemplateEngine(zip);
+		const courthouseTitleGenitiveInclineForm = await client.get(
+			courthouse.title
+		);
 
 		docxTemplateEngine.setData({
 			id: "А40-20515/2020",
@@ -61,7 +68,10 @@ export class RequestPaymentDocumentService
 				fullNameGenitive: inclineFullName(debtor.fullName, "genitive"),
 				fullNameInstrumental: inclineFullName(debtor.fullName, "instrumental"),
 			},
-			courthouse,
+			courthouse: {
+				...courthouse,
+				titleGenitive: courthouseTitleGenitiveInclineForm,
+			},
 		});
 
 		docxTemplateEngine.render();

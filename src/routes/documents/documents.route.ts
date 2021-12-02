@@ -27,7 +27,7 @@ router.get("/documents/:debtorId", (req, res) => {
 	res.status(200).send(fileNames);
 });
 
-router.post("/documents/generate", (req, res) => {
+router.post("/documents/generate", async (req, res) => {
 	const { managerId, debtorId, courthouseId } = req.body as GenerateDto;
 
 	try {
@@ -35,7 +35,7 @@ router.post("/documents/generate", (req, res) => {
 			services.DOCUMENTS
 		);
 
-		documentsService.generate(managerId, debtorId, courthouseId);
+		await documentsService.generate(managerId, debtorId, courthouseId);
 	} catch (error) {
 		console.log(error);
 	}
