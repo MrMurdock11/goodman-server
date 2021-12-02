@@ -35,7 +35,7 @@ router.post("/documents/generate", (req, res) => {
 			services.DOCUMENTS
 		);
 
-		documentsService.generateRequestPayment(managerId, debtorId);
+		documentsService.generate(managerId, debtorId, courthouseId);
 	} catch (error) {
 		console.log(error);
 	}

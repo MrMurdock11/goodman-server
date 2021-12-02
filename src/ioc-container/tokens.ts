@@ -2,7 +2,7 @@ export const services = {
 	DOCUMENTS: Symbol("documents"),
 	DEBTORS: Symbol("debtors"),
 	MANAGERS: Symbol("managers"),
-	COURTHOUSE: Symbol("courthouse"),
+	COURTHOUSES: Symbol("courthouses"),
 	REQUEST_PAYMENT_DOCUMENT: Symbol("-request-payment-document"),
 };
 

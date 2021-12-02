@@ -5,6 +5,7 @@ import moment from "moment";
 import path from "path";
 import PizZip from "pizzip";
 
+import { Courthouse } from "@models/courthouse";
 import { Debtor } from "@models/debtor";
 import { Manager } from "@models/manager";
 
@@ -12,7 +13,7 @@ import { getInitialsFullName } from "@helper/get-initials-full-name.helper";
 import { inclineFullName } from "@helper/incline-full-name.helper";
 
 export interface IRequestPaymentDocumentService {
-	generate(manager: Manager, debtor?: Debtor): void;
+	generate(manager: Manager, debtor: Debtor, courthouse: Courthouse): void;
 }
 
 @injectable()
@@ -28,7 +29,11 @@ export class RequestPaymentDocumentService
 	private readonly _resultFileName =
 		"Ходатайство о завершении процедуры реализации имущества гражданина.docx";
 
-	public generate(manager: Manager, debtor: Debtor): void {
+	public generate(
+		manager: Manager,
+		debtor: Debtor,
+		courthouse: Courthouse
+	): void {
 		const destinationPath = path.join(this._exportsPath, debtor.id);
 
 		const files = fs.readdirSync(destinationPath);
@@ -56,7 +61,7 @@ export class RequestPaymentDocumentService
 				fullNameGenitive: inclineFullName(debtor.fullName, "genitive"),
 				fullNameInstrumental: inclineFullName(debtor.fullName, "instrumental"),
 			},
-			courtOfLaw: undefined,
+			courthouse,
 		});
 
 		docxTemplateEngine.render();

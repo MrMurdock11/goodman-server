@@ -29,7 +29,14 @@ export class CourthousesService implements ICourthousesService {
 	}
 
 	getCourthouse(id: string): Courthouse {
-		throw new Error("Method not implemented.");
+		const courthouseEntity = this.courthouseRepository.find(id);
+		const courthouse = this._mapper.map(
+			courthouseEntity,
+			CourthouseEntity,
+			Courthouse
+		);
+
+		return courthouse;
 	}
 
 	public async setCourthouse(courthouse: Courthouse): Promise<void> {

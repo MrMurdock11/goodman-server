@@ -15,7 +15,7 @@ const __container = new Container();
 __container.bind(services.DOCUMENTS).to(DocumentsService);
 __container.bind(services.DEBTORS).to(DebtorsService);
 __container.bind(services.MANAGERS).to(ManagersService);
-__container.bind(services.COURTHOUSE).to(CourthousesService);
+__container.bind(services.COURTHOUSES).to(CourthousesService);
 __container
 	.bind(services.REQUEST_PAYMENT_DOCUMENT)
 	.to(RequestPaymentDocumentService);

@@ -1,18 +1,14 @@
-import DocxTemplateEngine from "docxtemplater";
 import { inject, injectable } from "inversify";
-
-import { Debtor } from "@models/debtor";
 
 import { services } from "@ioc-container/tokens";
 
-import { inclineFullName } from "@helper/incline-full-name.helper";
-
+import { ICourthousesService } from "./courthouses.service";
 import { IDebtorService } from "./debtors.service";
 import { IManagersService } from "./managers.service";
 import { IRequestPaymentDocumentService } from "./request-payment-document.service";
 
 export interface IDocumentsService {
-	generateRequestPayment(managerId: string, debtorId: string): void;
+	generate(managerId: Uuid, debtorId: Uuid, courthouseId: Uuid): void;
 }
 
 @injectable()
@@ -26,10 +22,14 @@ export class DocumentsService implements IDocumentsService {
 	@inject(services.DEBTORS)
 	private readonly _debtorsService!: IDebtorService;
 
-	public generateRequestPayment(managerId: string, debtorId: string): void {
+	@inject(services.COURTHOUSES)
+	private readonly _courthousesService!: ICourthousesService;
+
+	public generate(managerId: Uuid, debtorId: Uuid, courthouseId: Uuid): void {
 		const manager = this._managersService.getManager(managerId);
 		const debtor = this._debtorsService.getDebtor(debtorId);
+		const courthouse = this._courthousesService.getCourthouse(courthouseId);
 
-		this._requestPaymentDocumentService.generate(manager, debtor);
+		this._requestPaymentDocumentService.generate(manager, debtor, courthouse);
 	}
 }

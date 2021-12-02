@@ -19,7 +19,7 @@ router.get("/courthouses", (_, res): void => {});
 router.post("/courthouses", async (req, res): Promise<void> => {
 	try {
 		const courthousesService = __container.get<ICourthousesService>(
-			services.COURTHOUSE
+			services.COURTHOUSES
 		);
 		const courthouseDto = plainToInstance(AddCourthouseDto, req.body);
 		const courthouse = __mapper.map(
