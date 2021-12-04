@@ -14,7 +14,14 @@ import { AddCourthouseDto } from "./add-courthouse.dto";
 
 const router = Router();
 
-router.get("/courthouses", (_, res): void => {});
+router.get("/courthouses", (_, res): void => {
+	const courthousesService = __container.get<ICourthousesService>(
+		services.COURTHOUSES
+	);
+	const courthouses = courthousesService.getAllCourthouses();
+
+	res.status(200).send(courthouses);
+});
 
 router.post("/courthouses", async (req, res): Promise<void> => {
 	try {
@@ -37,8 +44,26 @@ router.post("/courthouses", async (req, res): Promise<void> => {
 	}
 });
 
-router.delete("/courthouses/:id", (req, res) => {});
+router.delete("/courthouses/:id", (req, res) => {
+	const { id } = req.params;
 
-router.get("/courthouses/:id", (req, res) => {});
+	const courthousesService = __container.get<ICourthousesService>(
+		services.COURTHOUSES
+	);
+	courthousesService.deleteCourthouse(id);
+
+	res.status(200).send();
+});
+
+router.get("/courthouses/:id", (req, res) => {
+	const { id } = req.params;
+
+	const courthousesService = __container.get<ICourthousesService>(
+		services.COURTHOUSES
+	);
+	const courthouse = courthousesService.getCourthouse(id);
+
+	res.status(200).send(courthouse);
+});
 
 export default router;

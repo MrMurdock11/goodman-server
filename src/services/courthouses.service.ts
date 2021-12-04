@@ -15,6 +15,7 @@ export interface ICourthousesService {
 	getCourthouse(id: string): Courthouse;
 
 	setCourthouse(courthouse: Courthouse): Promise<void>;
+
 	deleteCourthouse(id: string): void;
 }
 
@@ -24,11 +25,11 @@ export class CourthousesService implements ICourthousesService {
 	private readonly courthouseRepository!: ICourthousesRepository;
 	private readonly _mapper = __mapper;
 
-	getAllCourthouses(): Courthouse[] {
-		throw new Error("Method not implemented.");
+	public getAllCourthouses(): Courthouse[] {
+		return this.courthouseRepository.getAll();
 	}
 
-	getCourthouse(id: string): Courthouse {
+	public getCourthouse(id: string): Courthouse {
 		const courthouseEntity = this.courthouseRepository.find(id);
 		const courthouse = this._mapper.map(
 			courthouseEntity,
@@ -48,7 +49,7 @@ export class CourthousesService implements ICourthousesService {
 		await this.courthouseRepository.add(courthouseEntity);
 	}
 
-	deleteCourthouse(id: string): void {
-		throw new Error("Method not implemented.");
+	public deleteCourthouse(id: Uuid): void {
+		this.courthouseRepository.remove(id);
 	}
 }
